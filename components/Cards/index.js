@@ -18,11 +18,8 @@
 //
 // Create a card for each of the articles and add the card to the DOM.
 axios.get('https://lambda-times-backend.herokuapp.com/articles').then(res => {
-    console.log(res);
     const topics = Object.values(res.data.articles);
-    console.log(topics);
     for (art of topics) {
-        console.log(art);
         art.forEach(art => {
         const card = document.createElement('div');
         const headline = document.createElement('div');
