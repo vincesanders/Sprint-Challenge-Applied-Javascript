@@ -82,7 +82,7 @@ function carouselCreator() {
 carouselCreator();
 
 function displayCarouselImage(img, oldImg) {
-  img.style.display = 'inline-block';
+  img.style.display = 'block';
   if (oldImg) {
     oldImg.style.display = 'none';
   }
