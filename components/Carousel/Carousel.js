@@ -41,9 +41,39 @@ function carouselCreator() {
 
   carousel.append(leftButton, img1, img2, img3, img4, rightButton);
 
-  img1.style.display = 'inline-block';
+  //Add carousel functionality
+  let images = [img1, img2, img3, img4];
+  let currentImageIndex = 0;
+  displayCarouselImage(images[currentImageIndex]); //sets initial img for carousel
+
+  rightButton.addEventListener('click', e => {
+    if (currentImageIndex < 3) {
+      currentImageIndex++;
+      displayCarouselImage(images[currentImageIndex], images[currentImageIndex - 1]);
+    } else {
+      currentImageIndex = 0;
+      displayCarouselImage(images[currentImageIndex], images[images.length - 1]);
+    }
+  });
+
+  leftButton.addEventListener('click', e => {
+    if (currentImageIndex > 0) {
+      currentImageIndex--;
+      displayCarouselImage(images[currentImageIndex], images[currentImageIndex + 1]);
+    } else {
+      currentImageIndex = 3;
+      displayCarouselImage(images[currentImageIndex], images[0]);
+    }
+  });
 
   document.querySelector('.carousel-container').appendChild(carousel);
 }
 
 carouselCreator();
+
+function displayCarouselImage(img, oldImg) {
+  img.style.display = 'inline-block';
+  if (oldImg) {
+    oldImg.style.display = 'none';
+  }
+}
