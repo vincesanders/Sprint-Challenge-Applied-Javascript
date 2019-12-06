@@ -46,17 +46,16 @@ function carouselCreator() {
   let currentImageIndex = 0;
   displayCarouselImage(images[currentImageIndex]); //sets initial img for carousel
 
+  let carouselTimer = setInterval(progressImages, 3000);
+
   rightButton.addEventListener('click', e => {
-    if (currentImageIndex < 3) {
-      currentImageIndex++;
-      displayCarouselImage(images[currentImageIndex], images[currentImageIndex - 1]);
-    } else {
-      currentImageIndex = 0;
-      displayCarouselImage(images[currentImageIndex], images[images.length - 1]);
-    }
+    clearInterval(carouselTimer);
+    progressImages();
+    carouselTimer = setInterval(progressImages, 3000);
   });
 
   leftButton.addEventListener('click', e => {
+    clearInterval(carouselTimer);
     if (currentImageIndex > 0) {
       currentImageIndex--;
       displayCarouselImage(images[currentImageIndex], images[currentImageIndex + 1]);
@@ -64,9 +63,20 @@ function carouselCreator() {
       currentImageIndex = 3;
       displayCarouselImage(images[currentImageIndex], images[0]);
     }
+    carouselTimer = setInterval(progressImages, 3000);
   });
 
   document.querySelector('.carousel-container').appendChild(carousel);
+
+  function progressImages() {
+    if (currentImageIndex < 3) {
+      currentImageIndex++;
+      displayCarouselImage(images[currentImageIndex], images[currentImageIndex - 1]);
+    } else {
+      currentImageIndex = 0;
+      displayCarouselImage(images[currentImageIndex], images[images.length - 1]);
+    }
+  }
 }
 
 carouselCreator();
