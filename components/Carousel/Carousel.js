@@ -17,3 +17,73 @@
     <div class="right-button"> > </div>
   </div>
 */
+
+function carouselCreator() {
+  const carousel = document.createElement('div');
+  const leftButton = document.createElement('div');
+  const img1 = document.createElement('img');
+  const img2 = document.createElement('img');
+  const img3 = document.createElement('img');
+  const img4 = document.createElement('img');
+  const rightButton = document.createElement('div');
+
+  carousel.classList.add('carousel');
+  leftButton.classList.add('left-button');
+  rightButton.classList.add('right-button');
+
+  img1.src = './assets/carousel/mountains.jpeg';
+  img2.src = './assets/carousel/computer.jpeg';
+  img3.src = './assets/carousel/trees.jpeg';
+  img4.src = './assets/carousel/turntable.jpeg';
+
+  leftButton.textContent = " < ";
+  rightButton.textContent = " > ";
+
+  carousel.append(leftButton, img1, img2, img3, img4, rightButton);
+
+  //Add carousel functionality
+  let images = [img1, img2, img3, img4];
+  let currentImageIndex = 0;
+  displayCarouselImage(images[currentImageIndex]); //sets initial img for carousel
+
+  let carouselTimer = setInterval(progressImages, 3000);
+
+  rightButton.addEventListener('click', e => {
+    clearInterval(carouselTimer);
+    progressImages();
+    carouselTimer = setInterval(progressImages, 3000);
+  });
+
+  leftButton.addEventListener('click', e => {
+    clearInterval(carouselTimer);
+    if (currentImageIndex > 0) {
+      currentImageIndex--;
+      displayCarouselImage(images[currentImageIndex], images[currentImageIndex + 1]);
+    } else {
+      currentImageIndex = 3;
+      displayCarouselImage(images[currentImageIndex], images[0]);
+    }
+    carouselTimer = setInterval(progressImages, 3000);
+  });
+
+  document.querySelector('.carousel-container').appendChild(carousel);
+
+  function progressImages() {
+    if (currentImageIndex < 3) {
+      currentImageIndex++;
+      displayCarouselImage(images[currentImageIndex], images[currentImageIndex - 1]);
+    } else {
+      currentImageIndex = 0;
+      displayCarouselImage(images[currentImageIndex], images[images.length - 1]);
+    }
+  }
+}
+
+carouselCreator();
+
+function displayCarouselImage(img, oldImg) {
+  img.style.display = 'block';
+  if (oldImg) {
+    oldImg.style.display = 'none';
+  }
+}
